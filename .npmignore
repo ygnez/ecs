@@ -1,0 +1,6 @@
+.*
+src
+tests
+yarn.lock
+tsconfig.json
+nodemon.json
