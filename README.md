@@ -1,6 +1,6 @@
 ## Ygnez ECS
 
-Lightweight experimental ECS (entity-component-system) framework on TypeScript by Ygnez Team. Package includes game loop.
+Lightweight experimental ECS (entity-component-system) framework on TypeScript. Package includes game loop.
 
 ## Installation
 
