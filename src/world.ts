@@ -88,9 +88,10 @@ export class World {
    * @return {Component}
    */
   public addComponent<C extends Component>(entity: Entity, component: C): C {
-    this.components
-      .get(component.constructor as ComponentClass<C>)
-      ?.add(component);
+    const componentClass = component.constructor as ComponentClass<C>;
+
+    this.registerComponent(componentClass);
+    this.components.get(componentClass)?.add(component);
     this.entities.get(entity)?.add(component);
 
     this.onUpdateEntity(entity);
