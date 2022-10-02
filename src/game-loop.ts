@@ -30,16 +30,14 @@ export class Loop {
   running: boolean;
   step: number;
   deltas: Array<number>;
-  fps: number = 30;
   option: Option | undefined;
 
   constructor(update: UpdateCallback, fps: number = 30, option?: Option) {
     this.update = update;
     this.running = false;
-    this.step = 1000 / this.fps;
+    this.step = 1000 / fps;
     this.lastFrameTime = this.time();
     this.deltas = Array<number>();
-    this.fps = fps;
     this.option = option;
   }
 
