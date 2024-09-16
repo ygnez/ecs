@@ -1,5 +1,6 @@
 export * from './component';
 export * from './component-container';
+export * from './decorators';
 export * from './entity';
 export * from './event-bus';
 export * from './game-loop';

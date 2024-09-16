@@ -37,12 +37,12 @@ class Movement extends Component {
 Create new system using components Position and Movement:
 
 ```typescript
-import { System } from './system';
+import { System } from './decorators';
+import { AbstractSystem } from './system';
 import { Entity } from './entity';
 
-class MovementSystem extends System {
-  components: Set<Function> = new Set<Function>([Position, Movement]);
-
+@System(Position, Movement)
+class MovementSystem extends AbstractSystem {
   update(delta: number, entities: Set<Entity>): void {
     entities.forEach((entity) => {
       const movement = this.world.getComponent(entity, Movement);

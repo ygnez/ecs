@@ -2,9 +2,11 @@ import { World } from './world';
 import { Entity } from './entity';
 import { ComponentClass } from './component';
 
-export type SystemClass<S extends System = System> = new (...args: any[]) => S;
+export type SystemClass<S extends AbstractSystem = AbstractSystem> = new (
+  ...args: any[]
+) => S;
 
-export abstract class System {
+export abstract class AbstractSystem {
   public components: Set<ComponentClass>;
   protected world: World;
 
@@ -17,5 +19,6 @@ export abstract class System {
    * @param delta
    * @param entities
    */
-  public abstract update(delta: number, entities: Set<Entity>): void;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public update(delta: number, entities: Set<Entity>): void {}
 }

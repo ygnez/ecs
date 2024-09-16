@@ -1,4 +1,4 @@
-import { System, SystemClass } from './system';
+import { AbstractSystem, SystemClass } from './system';
 import { Component, ComponentClass } from './component';
 import { Entity } from './entity';
 import { ComponentContainer } from './component-container';
@@ -13,7 +13,10 @@ export class World {
     Entity,
     ComponentContainer
   >();
-  private systems: Map<System, Set<Entity>> = new Map<System, Set<Entity>>();
+  private systems: Map<AbstractSystem, Set<Entity>> = new Map<
+    AbstractSystem,
+    Set<Entity>
+  >();
 
   /*
    * ********************************
@@ -26,7 +29,9 @@ export class World {
    * @param systemClass
    * @return {void}
    */
-  public addSystem<S extends System>(systemClass: SystemClass<S>): void {
+  public addSystem<S extends AbstractSystem>(
+    systemClass: SystemClass<S>,
+  ): void {
     const system = new systemClass(this);
     if (!this.systems.has(system)) {
       this.systems.set(system, new Set<Entity>());
@@ -165,13 +170,13 @@ export class World {
     }
   }
 
-  private onUpdateSystem(system: System): void {
+  private onUpdateSystem(system: AbstractSystem): void {
     for (const entity of this.entities.keys()) {
       this.onUpdateEntitySystem(entity, system);
     }
   }
 
-  private onUpdateEntitySystem(entity: Entity, system: System): void {
+  private onUpdateEntitySystem(entity: Entity, system: AbstractSystem): void {
     const components = this.entities.get(entity) as ComponentContainer;
 
     if (components.allOf(system.components)) {
