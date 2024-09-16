@@ -1,6 +1,6 @@
 {
   "name": "@ygnez/ecs",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Lightweight experimental ECS (entity-component-system) framework on TypeScript.",
   "author": "Ygnez <me@ygnez.com>",
   "keywords": [
