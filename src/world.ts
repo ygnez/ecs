@@ -154,19 +154,19 @@ export class World {
    * @return {void}
    */
   public update(delta: number): void {
-    for (let [system, entities] of this.systems.entries()) {
+    for (const [system, entities] of this.systems.entries()) {
       system.update(delta, entities);
     }
   }
 
   private onUpdateEntity(entity: Entity): void {
-    for (let system of this.systems.keys()) {
+    for (const system of this.systems.keys()) {
       this.onUpdateEntitySystem(entity, system);
     }
   }
 
   private onUpdateSystem(system: System): void {
-    for (let entity of this.entities.keys()) {
+    for (const entity of this.entities.keys()) {
       this.onUpdateEntitySystem(entity, system);
     }
   }
@@ -174,7 +174,7 @@ export class World {
   private onUpdateEntitySystem(entity: Entity, system: System): void {
     const components = this.entities.get(entity) as ComponentContainer;
 
-    if (components.hasAll(system.components)) {
+    if (components.allOf(system.components)) {
       this.systems.get(system)?.add(entity);
     } else {
       this.systems.get(system)?.delete(entity);

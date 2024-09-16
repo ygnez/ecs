@@ -1,13 +1,14 @@
 import { World } from './world';
 import { Entity } from './entity';
+import { ComponentClass } from './component';
 
 export type SystemClass<S extends System = System> = new (...args: any[]) => S;
 
 export abstract class System {
-  public abstract components: Set<Function>;
+  public components: Set<ComponentClass>;
   protected world: World;
 
-  constructor(world: World) {
+  protected constructor(world: World) {
     this.world = world;
   }
 
