@@ -1,10 +1,9 @@
 import { ComponentClass } from '../component';
-import { AbstractSystem } from '../system';
+import { SystemClass } from '../system';
 
 export function System(...args: ComponentClass[]) {
-  return function (constructor: typeof AbstractSystem): typeof AbstractSystem {
-    return class extends constructor {
+  return <S extends SystemClass>(Base: S) =>
+    class extends Base {
       components = new Set<ComponentClass>(args);
     };
-  };
 }

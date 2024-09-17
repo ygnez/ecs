@@ -6,4 +6,5 @@ export * from './event-bus';
 export * from './game-loop';
 export * from './helpers';
 export * from './system';
+export * from './vector2';
 export * from './world';

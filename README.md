@@ -86,7 +86,7 @@ import { Loop } from './game-loop';
 
 new Loop((delta) => {
   world.update(delta);
-}, 30);
+}, 30).start()
 ```
 
 ## Support

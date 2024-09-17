@@ -33,6 +33,7 @@ export class World {
     systemClass: SystemClass<S>,
   ): void {
     const system = new systemClass(this);
+
     if (!this.systems.has(system)) {
       this.systems.set(system, new Set<Entity>());
     }
@@ -89,11 +90,22 @@ export class World {
   /**
    * Add new component instance to entity.
    * @param entity
-   * @param component
+   * @param componentClass
+   * @param data
    * @return {Component}
    */
-  public addComponent<C extends Component>(entity: Entity, component: C): C {
-    const componentClass = component.constructor as ComponentClass<C>;
+  public addComponent<C extends Component>(
+    entity: Entity,
+    componentClass: ComponentClass<C>,
+    data?: Omit<C, '$id'>,
+  ): C {
+    const component = new componentClass();
+
+    if (data) {
+      Object.keys(data).forEach((key) => {
+        Reflect.set(component, key, Reflect.get(data, key));
+      });
+    }
 
     this.registerComponent(componentClass);
     this.components.get(componentClass)?.add(component);
@@ -179,7 +191,7 @@ export class World {
   private onUpdateEntitySystem(entity: Entity, system: AbstractSystem): void {
     const components = this.entities.get(entity) as ComponentContainer;
 
-    if (components.allOf(system.components)) {
+    if (components.oneOf(system.components)) {
       this.systems.get(system)?.add(entity);
     } else {
       this.systems.get(system)?.delete(entity);

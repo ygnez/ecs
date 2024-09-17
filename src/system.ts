@@ -8,11 +8,8 @@ export type SystemClass<S extends AbstractSystem = AbstractSystem> = new (
 
 export abstract class AbstractSystem {
   public components: Set<ComponentClass>;
-  protected world: World;
 
-  protected constructor(world: World) {
-    this.world = world;
-  }
+  constructor(public readonly world: World) {}
 
   /**
    * Update.
