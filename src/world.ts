@@ -84,6 +84,9 @@ export class World {
         this.components.get(key)?.delete(value);
       }
     });
+    componentContainer.clear();
+
+    this.onUpdateEntity(entity);
 
     this.entities.delete(entity);
   }
@@ -232,5 +235,31 @@ export class World {
     } else {
       this.systems.get(system)?.delete(entity);
     }
+  }
+
+  /*
+   * ********************************
+   * OUTPUT
+   * ********************************
+   */
+
+  toString(): string {
+    const systemStat: string[] = [];
+    const componentStat: string[] = [];
+
+    this.systems.forEach((value, key) => {
+      systemStat.push(`[${key.name}] Entities: ${value.size}`);
+    });
+
+    this.components.forEach((value, key) => {
+      componentStat.push(`[${key.name}] Instances: ${value.size}`);
+    });
+
+    return [
+      `Entities: ${this.entities.size}`,
+      systemStat.join('\t\t'),
+      componentStat.join('\t\t'),
+      '--------',
+    ].join('\n');
   }
 }

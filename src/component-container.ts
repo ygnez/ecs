@@ -19,6 +19,10 @@ export class ComponentContainer {
     this.map.delete(componentClass);
   }
 
+  public clear(): void {
+    this.map.clear();
+  }
+
   public getAll() {
     return this.map;
   }
