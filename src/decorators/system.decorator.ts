@@ -4,6 +4,7 @@ import { SystemClass } from '../system';
 export function System(...args: ComponentClass[]) {
   return <S extends SystemClass>(Base: S) =>
     class extends Base {
-      components = new Set<ComponentClass>(args);
+      public readonly name = Base.name;
+      public readonly components = new Set<ComponentClass>(args);
     };
 }

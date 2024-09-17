@@ -19,43 +19,15 @@ export class ComponentContainer {
     this.map.delete(componentClass);
   }
 
-  /**
-   * # Equivalent intersection type
-   *
-   * Both sets are equal.
-   *
-   * @param componentClasses
-   */
-  public allOf(componentClasses: Set<ComponentClass>): boolean {
-    for (const cls of componentClasses) {
-      if (!this.map.has(cls)) {
-        return false;
-      }
-    }
-
-    for (const cls of this.map.keys()) {
-      if (!componentClasses.has(cls)) {
-        return false;
-      }
-    }
-
-    return true;
+  public getAll() {
+    return this.map;
   }
 
-  /**
-   * # Intersection union type
-   *
-   * At least one component of entity is included in system.
-   *
-   * @param componentClasses
-   */
-  public oneOf(componentClasses: Iterable<ComponentClass>): boolean {
-    for (const cls of componentClasses) {
-      if (this.map.has(cls)) {
-        return true;
-      }
-    }
+  public getAllComponentClasses(): Set<ComponentClass> {
+    return new Set(this.map.keys());
+  }
 
-    return false;
+  public getAllComponents(): Set<Component> {
+    return new Set(this.map.values());
   }
 }

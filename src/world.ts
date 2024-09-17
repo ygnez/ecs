@@ -41,6 +41,13 @@ export class World {
     this.onUpdateSystem(system);
   }
 
+  /**
+   * Get all systems instances.
+   */
+  public getSystems() {
+    return this.systems;
+  }
+
   /*
    * ********************************
    * ENTITY METHODS
@@ -55,6 +62,30 @@ export class World {
     const entity = ++this.nextId;
     this.entities.set(entity, new ComponentContainer());
     return entity;
+  }
+
+  /**
+   * Delete entity by ID.
+   * @param entity
+   */
+  public deleteEntity(entity: Entity) {
+    if (!this.entities.has(entity)) {
+      throw new Error(`No entity: ${entity}`);
+    }
+
+    const componentContainer = this.entities.get(entity);
+
+    if (!componentContainer) {
+      throw new Error(`No component container for entity: ${entity}`);
+    }
+
+    componentContainer.getAll().forEach((value, key) => {
+      if (this.components.has(key)) {
+        this.components.get(key)?.delete(value);
+      }
+    });
+
+    this.entities.delete(entity);
   }
 
   /*
@@ -149,7 +180,7 @@ export class World {
    * @return {Component[]}
    */
   public getComponents<C extends Component>(
-    componentClass: ComponentClass<any>,
+    componentClass: ComponentClass<C>,
   ): C[] {
     if (!this.components.has(componentClass)) {
       return [];
@@ -191,7 +222,12 @@ export class World {
   private onUpdateEntitySystem(entity: Entity, system: AbstractSystem): void {
     const components = this.entities.get(entity) as ComponentContainer;
 
-    if (components.oneOf(system.components)) {
+    if (
+      system.intersectionStrategy(
+        components.getAllComponentClasses(),
+        system.components,
+      )
+    ) {
       this.systems.get(system)?.add(entity);
     } else {
       this.systems.get(system)?.delete(entity);
